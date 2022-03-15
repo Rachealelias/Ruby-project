@@ -2,36 +2,68 @@ class UsersController < ApplicationController
 
   # GET: /users
   get "/users" do
-    erb :"/users/index.html"
+    User.all.to_json
   end
 
   # GET: /users/new
   get "/users/new" do
-    erb :"/users/new.html"
+    
   end
 
   # POST: /users
   post "/users" do
-    redirect "/users"
+    @user = User.create(params)
+    if user.id
+      serialized_user
+    else
+      user.errors.full_messages.to_sentence
+    end
   end
 
   # GET: /users/5
   get "/users/:id" do
-    erb :"/users/show.html"
+    find_user
+    if @user
+      serialized_user
+    else
+      {errors: "Record not found with id #{params['id']}"}.to_json
+    end
   end
 
   # GET: /users/5/edit
   get "/users/:id/edit" do
-    erb :"/users/edit.html"
+    
   end
 
   # PATCH: /users/5
   patch "/users/:id" do
-    redirect "/users/:id"
+    find_user
+    if @user && @user.update(params)
+      serialized_user
+    elsif !@user
+      {errors: "Record not found with id #{params['id']}"}.to_json
+    else
+      {errors: @user.errors.full_messages.to_sentence}.to_json
+    end
   end
 
   # DELETE: /users/5/delete
   delete "/users/:id/delete" do
-    redirect "/users"
+    find_user
+    if @user&.destroy
+      {messages: "Record successfully destroyed"}.to_json
+    else
+      {errors: "Record not found with id #{params['id']}"}.to_json
+    end
+  end
+
+  private
+
+  def find_user
+    @user = User.find_by_id(params["id"])
+  end
+
+  def serialized_user
+    @user.to_json(include: :games)
   end
 end
