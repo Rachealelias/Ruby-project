@@ -5,10 +5,6 @@ class UsersController < ApplicationController
     User.all.to_json
   end
 
-  # GET: /users/new
-  get "/users/new" do
-    
-  end
 
   # POST: /users
   post "/users" do
@@ -28,11 +24,6 @@ class UsersController < ApplicationController
     else
       {errors: "Record not found with id #{params['id']}"}.to_json
     end
-  end
-
-  # GET: /users/5/edit
-  get "/users/:id/edit" do
-    
   end
 
   # PATCH: /users/5

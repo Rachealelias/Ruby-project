@@ -12,9 +12,9 @@ class ApplicationController < Sinatra::Base
     {errors: "Record not found with id #{params['id']}"}.to_json
   end
 
-  private
-  def shared_helper_method
-    puts"I am visible in every controller!"
-  end
+  # private
+  # def shared_helper_method
+  #   puts"I am visible in every controller!"
+  # end
 
 end
