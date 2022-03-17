@@ -9,10 +9,10 @@ class UsersController < ApplicationController
   # POST: /users
   post "/users" do
     @user = User.create(params)
-    if user.id
+    if @user.id
       serialized_user
     else
-      user.errors.full_messages.to_sentence
+      @user.errors.full_messages.to_sentence
     end
   end
 
