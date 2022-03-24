@@ -8,19 +8,25 @@ class CommentsController < ApplicationController
 
   # POST: /comments
   post "/comments" do
-    @comment = Comment.create(params)
-    if @comment.id
-      serialized_comment
+    comment= Comment.create(
+      comment: params[:comment],
+      game_id: params[:game_id],
+      user_id: params[:user_id],
+    
+    )
+    if comment.id
+      comment.to_json
     else
-      @comment.errors.full_messages.to_sentence
+      comment.errors.full_messages.to_sentence
+      {errors: comment.errors.full_messages.to_sentence}.to_json
     end
   end
 
   # GET: /comments/5
   get "/comments/:id" do
-    find_comment
-    if @comment
-      serialized_comment
+    comment = Comment.find_by(id: params[:id])
+   if comment
+      comment.to_json(include: [user: {only: [:username, :user]}])
     else
       {errors: "Record not found with id #{params['id']}"}.to_json
     end
@@ -32,24 +38,16 @@ class CommentsController < ApplicationController
   end
 
   # DELETE: /comments/5/delete
-  delete "/comments/:id/delete" do
-    find_comment
-    if @comment&.destroy
+  delete "/comments/:id" do
+    comment = Comment.find_by(id: params[:id])
+    if comment&.destroy
       {messages: "Record successfully destroyed"}.to_json
     else
       {errors: "Record not found with id #{params['id']}"}.to_json
     end
   end
 
-  private
-
-  def find_comment
-    @comment = Comment.find_by_id(params["id"])
-  end
-
-  def serialized_comment
-    @comment.to_json(include: :game)
-  end
+  
 
 
 end
