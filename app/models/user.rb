@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-    has_many :games, dependent: :destroy
-
+    has_many :comments, dependent: :destroy
+    has_many :games, through: :comments
     # password security
     has_secure_password
 
