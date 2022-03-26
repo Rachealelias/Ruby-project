@@ -40,12 +40,7 @@ class GamesController < ApplicationController
    # PATCH: /games/5
   patch "/games/:id" do
     game = Game.find(params[:id])
-   if game &&  game.update(
-      name: params[:name],
-      image_url: params[:image_url],
-      likes: params[:likes],
-      user_id: params[:user_id]
-    )
+   if game &&  game.update(params)
       game.to_json
     elsif !game
       {errors: "Record not found with id #{params['id']}"}.to_json
