@@ -3,8 +3,7 @@ class GamesController < ApplicationController
   # GET: /games
   get "/games" do
 
-    games = Game.all
-    games.to_json
+  Game.all.to_json(include: :comments )
     
     # return a JSON response with an array of all the game data
 
@@ -31,7 +30,7 @@ class GamesController < ApplicationController
   get "/games/:id" do
     game = Game.find_by(id: params[:id])
    if game
-      game.to_json(include: [comments: {only: [:created_at, :comment]}])
+      game.to_json
     else
       {errors: "Record not found with id #{params['id']}"}.to_json
     end
@@ -40,7 +39,7 @@ class GamesController < ApplicationController
    # PATCH: /games/5
   patch "/games/:id" do
     game = Game.find(params[:id])
-   if game &&  game.update(params)
+   if game && game.update(params)
       game.to_json
     elsif !game
       {errors: "Record not found with id #{params['id']}"}.to_json

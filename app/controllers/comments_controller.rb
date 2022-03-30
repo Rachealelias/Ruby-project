@@ -33,7 +33,7 @@ class CommentsController < ApplicationController
   end
 
   # PATCH: /comments/5
-  patch "/users/:id" do
+  patch "/comments/:id" do
     
   end
 
