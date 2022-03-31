@@ -15,7 +15,6 @@ class GamesController < ApplicationController
     game= Game.create(
       name: params[:name],
       image_url: params[:image_url],
-      likes: params[:likes],
       user_id: params[:user_id]
     )
     if game.id

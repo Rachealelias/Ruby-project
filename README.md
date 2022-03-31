@@ -20,3 +20,4 @@ $ rackup config.ru
 This will start the server running on http://localhost/9292 for the backend.
 This project consist of two tables, the user table and the game table.
 
+Here is the Git repo for the frontend https://github.com/Rachealelias/ruby-project-frontend.
